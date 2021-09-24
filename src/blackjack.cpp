@@ -83,6 +83,20 @@ bool dealerTurn(Player& dealer, Deck& deck)
 	return false;
 }
 
+bool dealerDrewBlackjack(Player& dealer, Deck& deck)
+{
+	// If dealer has < MINIMUM_BLACKJACK_SCORE, he can't have a blackjack
+	if (dealer.score() < scores::MINIMUM_BLACKJACK_SCORE)
+		return false;
+
+	std::cout << "Dealer's turn!\n";
+	std::cout << "The dealer draws ";
+	dealer.drawCard(deck).print();
+	std::cout << ", and now has score: " << dealer.score() << '\n';
+
+	return dealer.score() == scores::MAXIMUM_SCORE;
+}
+
 BlackjackResult playBlackjack(Deck& deck)
 {
 	// Create the dealer, give them 1 card
@@ -99,12 +113,47 @@ BlackjackResult playBlackjack(Deck& deck)
 
 	std::cout << "You draw ";
 	player.drawCard(deck).print();
-	std::cout << ", and now have score: " << player.score() << "\n\n";
+	std::cout << ", and now have score: " << player.score() << '\n';
+
+	// If the player gets a blackjack, the dealer can tie with a blackjack, otherwise the player wins automatically
+	if (player.score() == scores::MAXIMUM_SCORE)
+	{
+		std::cout << "Blackjack!\n\n";
+
+		if (dealerDrewBlackjack(dealer, deck))
+		{
+			std::cout << "Blackjack!\n\n";
+
+			return BlackjackResult::TIE;
+		}
+		else
+		{
+			// formatting
+			if(dealer.score() >= scores::MINIMUM_BLACKJACK_SCORE)
+				std::cout << '\n';
+
+			return BlackjackResult::PLAYER_WIN;
+		}
+	}
+
+	// formatting
+	std::cout << '\n';
 
 	// Player goes first
 	if (playerTurn(player, deck))
 	{
 		// Player went bust, player loses
+		return BlackjackResult::PLAYER_LOSE;
+	}
+
+	// If dealer gets a blackjack when the player doesn't, the player loses automatically
+	if (dealer.score() + deck.nextCard().value() == scores::MAXIMUM_SCORE)
+	{
+		std::cout << "The dealer draws ";
+		dealer.drawCard(deck).print();
+		std::cout << ", and now has score: " << dealer.score() << '\n';
+		std::cout << "Blackjack!\n\n";
+
 		return BlackjackResult::PLAYER_LOSE;
 	}
 

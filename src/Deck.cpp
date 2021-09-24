@@ -45,3 +45,10 @@ const Card& Deck::dealCard()
 
 	return m_deck[m_cardIndex++];
 }
+
+const Card& Deck::nextCard()
+{
+	assert(m_cardIndex < m_deck.size() && "out of cards");
+
+	return m_deck[m_cardIndex];
+}
