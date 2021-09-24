@@ -67,15 +67,15 @@ bool dealerTurn(Player& dealer, Deck& deck)
 			return true;
 		}
 
-		// Dealer has less than 17, has to draw
-		if (dealer.score() < MINIMUM_DEALER_SCORE)
+		// Dealer has less than MINIMUM_DEALER_SCORE, has to draw
+		if (dealer.score() < scores::MINIMUM_DEALER_SCORE)
 		{
 			std::cout << "The dealer draws ";
 			dealer.drawCard(deck).print();
 			std::cout << ", and now has score: " << dealer.score() << '\n';
 		}
 		else
-			break;							// Dealer has 17 or more, stops drawing
+			break;							// Dealer has MINIMUM_DEALER_SCORE or more, stops drawing
 	}
 
 	// Dealer didn't go bust
