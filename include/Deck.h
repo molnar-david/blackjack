@@ -19,4 +19,5 @@ public:
 	void print() const;
 	void shuffle();
 	const Card& dealCard();
+	const Card& nextCard();
 };
