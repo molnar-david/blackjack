@@ -24,7 +24,7 @@ void Player::changeAceValue()
 bool Player::isBust()
 {
 	// Player is over 21, but has aces
-	while (m_score > MAXIMUM_SCORE && m_aceCount > 0)
+	while (m_score > scores::MAXIMUM_SCORE && m_aceCount > 0)
 	{
 		changeAceValue();
 		std::cout << "The value of an ace was changed from 11 to 1!\n";
@@ -32,7 +32,7 @@ bool Player::isBust()
 	}
 
 	// Player goes bust
-	if (m_score > MAXIMUM_SCORE)
+	if (m_score > scores::MAXIMUM_SCORE)
 		return true;
 
 	// Player doesn't go bust
