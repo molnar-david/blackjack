@@ -23,7 +23,7 @@ void Player::changeAceValue()
 
 bool Player::isBust()
 {
-	// Player is over 21, but has aces
+	// Player is over MAXIMUM_SCORE, but has aces
 	while (m_score > scores::MAXIMUM_SCORE && m_aceCount > 0)
 	{
 		changeAceValue();
